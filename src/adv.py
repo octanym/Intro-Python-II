@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -24,20 +25,24 @@ earlier adventurers. The only exit is to the south."""),
 
 # Link rooms together
 
-room['outside'].n_to = room['foyer']
-room['foyer'].s_to = room['outside']
-room['foyer'].n_to = room['overlook']
-room['foyer'].e_to = room['narrow']
-room['overlook'].s_to = room['foyer']
-room['narrow'].w_to = room['foyer']
-room['narrow'].n_to = room['treasure']
-room['treasure'].s_to = room['narrow']
+room['outside'].navigation["n"] = room['foyer']
+room['foyer'].navigation["s"] = room['outside']
+room['foyer'].navigation["n"] = room['overlook']
+room['foyer'].navigation["e"] = room['narrow']
+room['overlook'].navigation["s"] = room['foyer']
+room['narrow'].navigation["w"] = room['foyer']
+room['narrow'].navigation["n"] = room['treasure']
+room['treasure'].navigation["s"] = room['narrow']
 
 #
 # Main
 #
 
 # Make a new player object that is currently in the 'outside' room.
+
+my_player = Player("Cameron", room['outside'])
+
+print(my_player)
 
 # Write a loop that:
 #
@@ -49,3 +54,16 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+
+# user_is_playing = True
+
+# while user_is_playing:
+#   print(my_player.current_room.name)
+
+#   for line in text_wrap.wrap(my_player.current_room.description):
+#     print(line)
+
+#   user_input = input("which direction would you like to go?")
+
+#   if user_input in ["n", "e", "s", "w"]
