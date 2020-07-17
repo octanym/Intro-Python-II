@@ -1,9 +1,10 @@
 from room import Room
 from player import Player
+import textwrap
 
 # Declare all the rooms
 
-room = {
+location = {
     'outside':  Room("Outside Cave Entrance",
                      "North of you, the cave mount beckons"),
 
@@ -25,14 +26,14 @@ earlier adventurers. The only exit is to the south."""),
 
 # Link rooms together
 
-room['outside'].navigation["n"] = room['foyer']
-room['foyer'].navigation["s"] = room['outside']
-room['foyer'].navigation["n"] = room['overlook']
-room['foyer'].navigation["e"] = room['narrow']
-room['overlook'].navigation["s"] = room['foyer']
-room['narrow'].navigation["w"] = room['foyer']
-room['narrow'].navigation["n"] = room['treasure']
-room['treasure'].navigation["s"] = room['narrow']
+location['outside'].navigation["n"] = location['foyer']
+location['foyer'].navigation["s"] = location['outside']
+location['foyer'].navigation["n"] = location['overlook']
+location['foyer'].navigation["e"] = location['narrow']
+location['overlook'].navigation["s"] = location['foyer']
+location['narrow'].navigation["w"] = location['foyer']
+location['narrow'].navigation["n"] = location['treasure']
+location['treasure'].navigation["s"] = location['narrow']
 
 #
 # Main
@@ -40,9 +41,9 @@ room['treasure'].navigation["s"] = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
-my_player = Player("Cameron", room['outside'])
+my_player = Player("Cameron", location['outside'])
 
-print(my_player)
+# print(my_player)
 
 # Write a loop that:
 #
@@ -55,15 +56,20 @@ print(my_player)
 #
 # If the user enters "q", quit the game.
 
+# print(my_player.current_room.description)
 
-# user_is_playing = True
+user_is_playing = True
 
-# while user_is_playing:
-#   print(my_player.current_room.name)
+while user_is_playing:
+    print(my_player.current_room.name)
 
-#   for line in text_wrap.wrap(my_player.current_room.description):
-#     print(line)
+    for line in textwrap.wrap(my_player.current_room.description, 12):
+        print(line)
 
-#   user_input = input("which direction would you like to go?")
+    player_input = input("Where should we go? n? s? e? or w?")
 
-#   if user_input in ["n", "e", "s", "w"]
+    if player_input in ["n", "e", "s", "w"]:
+        my_player.explore(player_input)
+    else:
+        print("You exited the game")
+        break
